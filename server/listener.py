@@ -1,18 +1,21 @@
 import socket
 
-def booble_server():
+def start_booble_server():
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server.bind(('0.0.0.0', 9999)) # Порт нашого месенджера
-    server.listen(10)
-    print("--- BOOBLE NETWORK ONLINE ---")
+    server.bind(('0.0.0.0', 9999))
+    server.listen(5)
+    print("--- BOOBLE SERVER RUNNING ---")
 
     while True:
         conn, addr = server.accept()
-        print(f"Нове з'єднання: {addr}")
+        data = conn.recv(1024)
         
-        # Відправляємо вітання від Booble
-        conn.send(b"BOOBLE_V1_READY")
+        # Перевіряємо, чи це наш протокол
+        if data.startswith(b"BOOB"):
+            content = data[4:].decode('utf-8') # Відрізаємо заголовок "BOOB"
+            print(f"[{addr}] Каже: {content}")
+        
         conn.close()
 
 if __name__ == "__main__":
-    booble_server()
+    start_booble_server()

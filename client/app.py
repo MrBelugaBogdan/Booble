@@ -1,42 +1,39 @@
 import tkinter as tk
+from tkinter import messagebox
 
-class BooblePro:
+class BoobleAuth:
     def __init__(self, root):
         self.root = root
-        self.root.title("Booble v1.0 - High Tech Messenger")
-        self.root.geometry("800x500")
-        self.root.configure(bg="#0f0f0f") # Глибокий чорний колір
+        self.root.title("Booble v1.0 - Авторизація")
+        self.root.geometry("300x400")
+        self.root.configure(bg="#0a0a0a")
 
-        # ЛІВА ПАНЕЛЬ (Список чатів)
-        self.side_bar = tk.Frame(root, bg="#1a1a1a", width=250)
-        self.side_bar.pack(side="left", fill="y")
-        
-        tk.Label(self.side_bar, text="ЧАТИ", fg="#00ffcc", bg="#1a1a1a", font=("Segoe UI", 12, "bold")).pack(pady=10)
-        
-        # Заглушки під чати (для вигляду)
-        for name in ["Брат Артем", "Проєкт DoNet", "Адмін Booble"]:
-            btn = tk.Button(self.side_bar, text=name, bg="#252525", fg="white", relief="flat", anchor="w")
-            btn.pack(fill="x", padx=5, pady=2)
+        # Логотип
+        tk.Label(root, text="B", fg="#00ffcc", bg="#0a0a0a", font=("Arial", 60, "bold")).pack(pady=30)
+        tk.Label(root, text="Введіть ваш ключ Booble", fg="white", bg="#0a0a0a").pack()
 
-        # ПРАВА ПАНЕЛЬ (Вікно переписки)
-        self.main_chat = tk.Frame(root, bg="#0f0f0f")
-        self.main_chat.pack(side="right", expand=True, fill="both")
+        # Поле для пароля (ключа)
+        self.key_entry = tk.Entry(root, show="*", bg="#1a1a1a", fg="#00ffcc", borderwidth=0, insertbackground="white")
+        self.key_entry.pack(pady=10, ipady=5)
 
-        # Поле з повідомленнями
-        self.chat_display = tk.Text(self.main_chat, bg="#0f0f0f", fg="#e0e0e0", state="disabled", borderwidth=0)
-        self.chat_display.pack(expand=True, fill="both", padx=10, pady=10)
+        # Кнопка входу
+        tk.Button(root, text="УВІЙТИ", command=self.check_auth, bg="#00ffcc", fg="black", width=15).pack(pady=20)
 
-        # ПОЛЕ ВВОДУ (Внизу)
-        self.input_area = tk.Frame(self.main_chat, bg="#1a1a1a", height=60)
-        self.input_area.pack(side="bottom", fill="x")
+    def check_auth(self):
+        # Наш секретний ключ (можеш змінити на свій)
+        if self.key_entry.get() == "1234":
+            self.root.destroy() # Закриваємо вікно входу
+            self.open_main_chat() # Відкриваємо чат
+        else:
+            messagebox.showerror("Помилка", "Невірний ключ доступу!")
 
-        self.msg_entry = tk.Entry(self.input_area, bg="#333333", fg="white", borderwidth=0)
-        self.msg_entry.pack(side="left", fill="x", expand=True, padx=10, pady=10)
-
-        self.send_btn = tk.Button(self.input_area, text="➤", bg="#00ffcc", fg="black", width=5)
-        self.send_btn.pack(side="right", padx=10)
+    def open_main_chat(self):
+        main_root = tk.Tk()
+        # Тут буде код нашого головного чату, який ми писали раніше
+        print("Вхід дозволено!")
+        main_root.mainloop()
 
 if __name__ == "__main__":
     root = tk.Tk()
-    app = BooblePro(root)
+    app = BoobleAuth(root)
     root.mainloop()
